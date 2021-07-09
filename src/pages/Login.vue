@@ -1,14 +1,14 @@
 <template>
   <div>
-    <el-form :rules="rules" class="login-container" label-position="left" :model="loginForm"
+    <el-form :rules="rules" class="login-container" label-position="left" :model="form"
              label-width="0px" v-loading="loading">
       <h3 class="login_title">请登录</h3>
       <el-form-item prop="username">
-        <el-input type="text" v-model="loginForm.userName"
+        <el-input type="text" v-model="form.username"
                   auto-complete="off" placeholder="账号"/>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input type="password" v-model="loginForm.password"
+        <el-input type="password" v-model="form.password"
                   auto-complete="off" placeholder="密码"/>
       </el-form-item>
       <el-form-item style="width: 100%">
@@ -30,19 +30,18 @@ export default {
         password: [{required: true, message: '请输入密码', trigger: 'blur'}]
       },
       checked: true,
-      loginForm: {
-        userName: '',
+      form: {
+        username: '',
         password: '',
-        captcha: null
       },
       loading: false
     }
   },
   methods: {
     submitClick() {
-      this.$store.dispatch('login',this.loginForm).then(()=>{
+      this.$store.dispatch('login',this.form).then(()=>{
         this.$router.replace('/visible/general')
-      },()=>this.$alert('用户名或密码错误'))
+      }).catch(()=>{})
     },
   },
 }

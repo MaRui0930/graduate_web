@@ -1,26 +1,21 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {getUsername} from "@/utils/cookie";
 import {login as Login} from "@/api/login";
+import {getToken} from "@/utils/cookie";
 
 Vue.use(Vuex);
 
 const state = {
     defaultIndex: sessionStorage.getItem('defaultIndex') || '/visible/general',
-    // token: getToken() || '',
-    username: getUsername() || '',
+    token: getToken() || '',
 };
 const getters = {
     getIndex: state => state.defaultIndex,
     getUsername: state=> state.username
 };
 const actions = {
-    login(content,reqData){
-        return new Promise((resolve, reject) => {
-            Login(reqData).then(res=>{
-                resolve(res)
-            },(err)=>reject(err))
-        })
+    login(content,form){
+        return new Promise((resolve, reject) => {Login(form).then(res => {resolve(res)}).catch(error => reject(error));})
     }
 };
 const mutations = {
@@ -30,9 +25,6 @@ const mutations = {
     },
     SET_TOKEN(state, value) {
         state.token = value
-    },
-    SET_USERNAME(state, value) {
-        state.username = value
     },
 };
 

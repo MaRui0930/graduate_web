@@ -1,16 +1,16 @@
-import axios, {AxiosInstance} from 'axios';
+import axios from 'axios';
+import {Message} from "element-ui";
 
 export const project_url = '/graduate_server';
 
-/*
 axios.interceptors.response.use(response => {
-    if (response.status && response.status === 200 && response.data.code === 500) {
-        Message.error({message: response.data.message})
-        return;
+    let data=response.data;
+    if (data.status !== 0) {
+        Message.error(data.msg);
+        return Promise.reject(data)
     }
-    return response.data;
-}, () => {})
-*/
+    return data
+}, (error) => {return Promise.reject(error)})
 
 export const getRequest = (url, params) => {
     return axios({
@@ -19,7 +19,6 @@ export const getRequest = (url, params) => {
         params: params
     })
 }
-
 
 export const postRequest = (url, params) => {
     return axios({

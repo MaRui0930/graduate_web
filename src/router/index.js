@@ -71,5 +71,4 @@ export default new VueRouter({
             }
         }
     ],
-
 })
