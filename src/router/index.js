@@ -48,7 +48,7 @@ export default new VueRouter({
                 {
                     path: '/workorder/order_manage',
                     meta: {name: '工单管理'},
-                    component: () => import("../pages/workorder/OrderManage")
+                    component: () => import("../pages/workorder/WorkOrderManage")
                 }
             ]
         },

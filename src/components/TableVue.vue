@@ -16,10 +16,10 @@
         <el-table-column :key="item.field" :label="item.label" :width="item.width" type="expand" align="center"
                          v-else-if="item.columnType === 'expand'">
           <template slot-scope="scope">
-            <el-form label-position="left">
-              <template v-for="expand in item.expands">
-                <el-form-item :key="expand" :label="Object.values(expand).toString()">
-                  {{ scope.row[Object.keys(expand).toString()] }}
+            <el-form v-if="scope.row[getObjProp]!=null" label-position="left">
+              <template v-for="(expand,index) in item.expands">
+                <el-form-item :key="index" :label="Object.values(expand).toString()">
+                  {{ getObjProp?scope.row[getObjProp][Object.keys(expand).toString()]:scope.row[Object.keys(expand).toString()]}}
                 </el-form-item>
               </template>
             </el-form>
@@ -56,6 +56,7 @@ export default {
       tableConfig: {
         tHead: [],
         selection: false,
+        objPath: null,
         requestData: {},
       },
       //分页数据
@@ -118,6 +119,11 @@ export default {
   },
   beforeMount() {
     this.initTableConfig();
+  },
+  computed:{
+    getObjProp() {
+        return this.tableConfig.objPath;
+    }
   }
 }
 </script>
