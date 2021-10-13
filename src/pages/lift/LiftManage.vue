@@ -6,6 +6,7 @@
     <TableVue ref="userTable" :config="configTable">
 
     </TableVue>
+    <DynamicForm/>
   </div>
 </template>
 
@@ -13,10 +14,11 @@
 import TableVue from "@/components/TableVue";
 import refreshTableData from "@/mixin/refreshTableData";
 import LiftManageLayout from "@/components/layout/LiftManageLayout";
+import DynamicForm from "@/components/form/DynamicForm";
 
 export default {
   name: "LiftManage",
-  components: {LiftManageLayout, TableVue},
+  components: {DynamicForm, LiftManageLayout, TableVue},
   mixins: [refreshTableData],
   data() {
     return {
