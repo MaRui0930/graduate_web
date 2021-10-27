@@ -1,12 +1,12 @@
 <template>
   <div>
     <el-divider content-position="left">电梯管理</el-divider>
-    <LiftManageLayout @query="query"/>
+    <LiftManageLayout :flag.sync="isAdd" @query="query"/>
     <br>
     <TableVue ref="userTable" :config="configTable">
 
     </TableVue>
-    <DynamicForm/>
+    <LiftAdd @refreshTableData="refreshTableData" :flag.sync="isAdd"/>
   </div>
 </template>
 
@@ -14,11 +14,12 @@
 import TableVue from "@/components/TableVue";
 import refreshTableData from "@/mixin/refreshTableData";
 import LiftManageLayout from "@/components/layout/LiftManageLayout";
-import DynamicForm from "@/components/form/DynamicForm";
+import LiftAdd from "@/components/dialog/LiftAdd";
+
 
 export default {
   name: "LiftManage",
-  components: {DynamicForm, LiftManageLayout, TableVue},
+  components: {LiftAdd, LiftManageLayout, TableVue},
   mixins: [refreshTableData],
   data() {
     return {
@@ -71,7 +72,7 @@ export default {
           }
         }
       },
-      test:{}
+      isAdd: false,
     }
   },
   methods: {
@@ -81,8 +82,6 @@ export default {
         data: {}
       };
       this.paramsLoadData(requestData);
-      this.$set(this.test,'name','marui')
-      this.$set(this.test, 'age', 123);
     },
   }
 }

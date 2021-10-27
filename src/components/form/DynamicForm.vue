@@ -4,6 +4,7 @@
                :key="item.name" :is="item.type"
                :item="item" :number="number"
                @changeComponent="changeComponentHandle"/>
+    <el-button slot="footer" @click="add">提交</el-button>
   </div>
 </template>
 
@@ -38,6 +39,9 @@ export default {
       const {formConfig} =this
       const key=formConfig[number].name
       this.$set(this.submitData, key, value);
+    },
+    add() {
+      this.$emit('addLift', this.submitData);
     }
   }
 }
