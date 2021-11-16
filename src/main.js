@@ -5,6 +5,10 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import router from './router'
 
+//echarts
+import * as echarts from 'echarts'
+Vue.prototype.$echarts=echarts
+
 import "./router/permit"
 import {getRequest, postRequest} from "@/utils/request";
 
