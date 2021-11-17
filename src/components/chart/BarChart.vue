@@ -1,9 +1,11 @@
 <template>
+  <!--电梯状态柱状图-->
   <div :style="{height:height,width:width}"/>
 </template>
 
 <script>
 import * as echarts from 'echarts'
+import {getLiftState} from "@/api/visible";
 
 export default {
   name: "BarChart",
@@ -17,9 +19,17 @@ export default {
       default: '300px'
     }
   },
+  data() {
+    return {
+      chart: null,
+    }
+  },
   mounted() {
-    this.$nextTick(() => {
-      this.initChart()
+    getLiftState().then(res=>{
+      const {num,states}= res.data;
+      this.$nextTick(() => {
+        this.initChart({num,states})
+      })
     })
   },
   beforeDestroy() {
@@ -30,9 +40,8 @@ export default {
     this.chart = null
   },
   methods: {
-    initChart() {
+    initChart({num,states}) {
       this.chart = echarts.init(this.$el)
-
       this.chart.setOption({
         tooltip: {
           trigger: 'axis',
@@ -49,7 +58,7 @@ export default {
         },
         xAxis: [{
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: states,
           axisTick: {
             alignWithLabel: true
           }
@@ -61,26 +70,8 @@ export default {
           }
         }],
         series: [{
-          name: 'pageA',
           type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [79, 52, 200, 334, 390, 330, 220],
-
-        }, {
-          name: 'pageB',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [80, 52, 200, 334, 390, 330, 220],
-
-        }, {
-          name: 'pageC',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [30, 52, 200, 334, 390, 330, 220],
-
+          data: num
         }]
       })
     }
