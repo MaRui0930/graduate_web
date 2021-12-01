@@ -24,7 +24,7 @@ export default {
   components: {WorkOrderLayout, TableVue},
   mixins: [refreshTableData],
   data() {
-    return{
+    return {
       configTable: {
         tHead: [
           {
@@ -47,21 +47,7 @@ export default {
             label: "工单状态",
             columnType: "slot",
             slotName: "operation"
-          },
-          /*{
-            label: "操作",
-            columnType: "slot",
-            slotName: "operation"
-          },
-          {
-            label: "更多",
-            columnType: "expand",
-            expands: [
-              {createTime: '创建时间:'},
-              {deviceType: '设备类型:'},
-              {id: '设备id:'}
-            ]
-          }*/
+          }
         ],
         requestData: {
           url: "/workOrder/getAll",
@@ -71,16 +57,16 @@ export default {
           }
         }
       },
-      states:[
-          {label:"已创建", value: 0},
-          {label:"已响应", value: 1},
-          {label:"已解决", value: 2},
-          {label:"已回访", value: 3},
-          {label:"已完结", value: 4},
+      states: [
+        {label: "已创建", value: 0},
+        {label: "已响应", value: 1},
+        {label: "已解决", value: 2},
+        {label: "已回访", value: 3},
+        {label: "已完结", value: 4},
       ]
     }
   },
-  methods:{
+  methods: {
     query() {
       const requestData = {
         url: '/workOrder/getAll',
@@ -88,9 +74,11 @@ export default {
       };
       this.paramsLoadData(requestData);
     },
-    changeState(slotData,workOrderState) {
-      const {id,liftId}=slotData
-      changeState(id,liftId,workOrderState).then(()=>{
+    changeState(slotData, workOrderState) {
+      console.log(slotData)
+      console.log(workOrderState)
+      const {id, liftId} = slotData
+      changeState(id, liftId, workOrderState).then(() => {
         this.refreshTableData();
       })
     }

@@ -4,9 +4,14 @@
     <LiftManageLayout :flag.sync="isAdd" @query="query"/>
     <br>
     <TableVue ref="userTable" :config="configTable">
-
+      <template v-slot:operation="slotData">
+        <el-button v-if="slotData.data.liftState ==='发生故障'" size="small" type="success" @click="show(slotData.data)">
+          详情
+        </el-button>
+      </template>
     </TableVue>
     <LiftAdd @refreshTableData="refreshTableData" :flag.sync="isAdd"/>
+    <LiftInfo :liftInfoForm="liftInfoForm" :flag.sync="isInfo"/>
   </div>
 </template>
 
@@ -15,11 +20,13 @@ import TableVue from "@/components/TableVue";
 import refreshTableData from "@/mixin/refreshTableData";
 import LiftManageLayout from "@/components/layout/LiftManageLayout";
 import LiftAdd from "@/components/dialog/LiftAdd";
+import LiftInfo from "@/components/dialog/LiftInfo";
+import {getLiftInfo} from "@/api/liftMange";
 
 
 export default {
   name: "LiftManage",
-  components: {LiftAdd, LiftManageLayout, TableVue},
+  components: {LiftInfo, LiftAdd, LiftManageLayout, TableVue},
   mixins: [refreshTableData],
   data() {
     return {
@@ -54,14 +61,10 @@ export default {
             field: 'address'
           },
           {
-            label: "更多",
-            columnType: "expand",
-            expands: [
-              {faultType: '故障类型:'},
-              {faultStart: '故障开始时间:'},
-              {faultEnd: '故障结束时间:'}
-            ]
-          }
+            label: "操作",
+            columnType: "slot",
+            slotName: "operation"
+          },
         ],
         objPath: 'liftInfo',
         requestData: {
@@ -72,7 +75,9 @@ export default {
           }
         }
       },
+      liftInfoForm: {},
       isAdd: false,
+      isInfo: false
     }
   },
   methods: {
@@ -83,6 +88,12 @@ export default {
       };
       this.paramsLoadData(requestData);
     },
+    show(data) {
+      getLiftInfo(data.id).then(res => {
+        this.liftInfoForm = res.data;
+      })
+      this.isInfo = true;
+    }
   }
 }
 </script>

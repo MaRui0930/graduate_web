@@ -1,7 +1,6 @@
 <template>
   <div>
     <div>
-      前端可视化页面
       <BarChart/>
       <PieChart/>
       <LineChart/>
